@@ -1,0 +1,122 @@
+#lang racket
+
+#| Italo Terto da Silva - ID: 21326312 |#
+
+
+;;; Problem Description: ;;;
+
+#|
+ My idea is to create a short randomised fantasy story.
+ Using a dice rolling system, where depending on the value of the
+ dice a certain event would occur.
+|#
+
+
+
+;;; Defining Dices ;;;
+
+#|
+ Here we will define some functions that will have lists
+ of strings that will be randomly chosen in the next part.
+|#
+
+
+;; Players
+(define D1 (vector "The Knight,"
+              "The Rogue,"
+              "The Mage,"
+              "The Archer,"
+               ))
+
+
+;; Locations
+(define D2 (vector "at the The Dead Maze,"
+              "at the The Restless Crypt,"
+              "at the The Dead Tunnels,"
+              "at the Chambers of the Dishonored Monk,"
+              "at the Tombs of the Secret Knight,"
+               ))
+
+
+;; Actions
+(define D3 (vector "used the longsword to slay"
+               "used the rapier to rapidly attack"
+               "threw the hatchet towards"
+               "used the axe to finish"
+               "used the mace in an attempt to hit"
+               "casted the Abomination of Chaos on"
+               "casted the Blast of Darkness on"
+               "casted the Jinx of Elemental Fury on"
+               "casted the Void Missiles on"
+               "casted the Aura of the Inferno on"
+               "casted the Burst of Divine Intervention on"
+                ))
+
+
+;; Enemies
+(define D4 (vector "Rondos, Champion Of The Skies"
+              "Pandrais, The Dragonlord"
+              "Miesut, The Voiceless One"
+              "Sayrrian, Lord Of Fire"
+              "Zeitaedeos, The Eternal"
+               ))
+
+
+;; Outcomes
+(define D5 (vector "but died from third degree burns."
+              "but got caught in a magic spell."
+              "but got stabbed and bled until death."
+              "and successfully defeated the enemy."
+              "but was magically teletransported to another dimension."
+               ))
+
+
+
+;;; Making the random selection ;;;
+
+#|
+ Here we will define some functions that will pick a random string from
+ the previous functions. By combining the vector-ref and random functions,
+ we are able to so.
+|#
+
+;; Random selection for the Player
+(define dice1 (vector-ref D1 (random 0 4)))
+
+
+;; Random selection for the Location
+(define dice2 (vector-ref D2 (random 0 5)))
+
+
+;; Random selection for the Action
+
+; Obs: In this selection I am using if statements to check the character/Player chosen on dice1
+; depending on the character chosen, if it is, it will choose randomly certain actions from the D3 function.
+
+(define dice3 (if (equal? dice1 (vector-ref D1 2)) (vector-ref D3 (random 5 11))
+                  ; On this first if statement we are checking if the Player from D1 is "The Mage", if it is, it's going to give one value from a specific range from D3.
+
+                  (if (equal? dice1 (vector-ref D1 0)) (vector-ref D3 (random 0 5)) (vector-ref D3 (random 0 11))) ))
+                  ; On this second if statement, in case the first one gives a false value, it's checking if the value from D1 is
+                  ; "The Knight", and again based on the result it's going to give one value from a specific range from D3.
+
+
+;; Random selection for the Enemy
+(define dice4 (vector-ref D4 (random 0 5)))
+
+
+;; Random selection for the Outcome
+(define dice5 (vector-ref D5 (random 0 5)))
+
+; Obs: On the functions above when using the random function when called with two integer arguments min and max, it returns a random exact integer in the range min to max-1. Therefore,
+; when I used it inside the vector-ref function, which requires an index of the list, I added one more to include all of the strings.
+
+
+
+;;; Displaying ;;;
+
+; When you run the code it automatically generates a short story.
+
+; I used the printf function to display everything together.
+
+(printf "~a ~a ~a ~a ~a" dice1 dice2 dice3 dice4 dice5)
